@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.caelum.eats.pedido.Pedido;
-import br.com.caelum.eats.pedido.PedidoService;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -23,7 +21,6 @@ import lombok.AllArgsConstructor;
 class PagamentoController {
 
 	private PagamentoRepository pagamentoRepo;
-	private PedidoService pedidos;
 
 	@GetMapping("/{id}")
 	PagamentoDto detalha(@PathVariable("id") Long id) {
@@ -44,10 +41,7 @@ class PagamentoController {
 		Pagamento pagamento = pagamentoRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException());
 		pagamento.setStatus(Pagamento.Status.CONFIRMADO);
 		pagamentoRepo.save(pagamento);
-		Long pedidoId = pagamento.getPedido().getId();
-		Pedido pedido = pedidos.porIdComItens(pedidoId);
-		pedido.setStatus(Pedido.Status.PAGO);
-		pedidos.atualizaStatus(Pedido.Status.PAGO, pedido);
+		// TODO: avisar que o pedido foi pago
 		return new PagamentoDto(pagamento);
 	}
 
