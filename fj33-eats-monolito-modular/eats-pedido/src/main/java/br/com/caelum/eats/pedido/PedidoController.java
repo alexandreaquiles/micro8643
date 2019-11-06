@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.caelum.eats.pedido.Pedido.Status;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -54,5 +55,30 @@ class PedidoController {
 		return repo.doRestauranteSemOsStatus(restauranteId, Arrays.asList(Pedido.Status.REALIZADO, Pedido.Status.ENTREGUE)).stream()
 				.map(pedido -> new PedidoDto(pedido)).collect(Collectors.toList());
 	}
+	
+	@PutMapping("/pedidos/{id}/pago")
+	void pago(@PathVariable("id") Long id) {
+		Pedido pedido = repo.getOne(id);
+		if (pedido == null) {
+			throw new ResourceNotFoundException();
+		}
+		
+		pedido.setStatus(Status.PAGO);
+		repo.atualizaStatus(Status.PAGO, pedido);
+	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

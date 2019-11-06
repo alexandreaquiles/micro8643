@@ -1,15 +1,17 @@
-package br.com.caelum.eats.pagamento;
+package br.com.caelum.eats.apigateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @EnableFeignClients
+@EnableZuulProxy
 @SpringBootApplication
-public class EatsPagamentoServiceApplication {
+public class ApiGatewayApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EatsPagamentoServiceApplication.class, args);
+		SpringApplication.run(ApiGatewayApplication.class, args);
 	}
 
 }
